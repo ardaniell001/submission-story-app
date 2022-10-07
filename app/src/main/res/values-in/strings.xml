@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="general_image_description">Deskripsi Gambar</string>
+    <string name="app_subtitle">Ceritakan Kisahmu Bersama Dicoding</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Nama</string>
+    <string name="btn_login">Login</string>
+    <string name="login_no_account">Belum Punya Akun,</string>
+    <string name="login_register">Daftar Disini</string>
+    <string name="register_title">Daftar Akun</string>
+    <string name="btn_register">Daftar</string>
+    <string name="validate_nama_empty">Nama harus diisi</string>
+    <string name="validate_email_empty">Email harus diisi</string>
+    <string name="validate_email_invalid">Email tidak valid</string>
+    <string name="validate_password_empty">Password harus diisi</string>
+    <string name="validate_password_length">Minimal 6 Karakter</string>
+    <string name="validate_password_confirm">Konfirmasi Password tidak sama</string>
+    <string name="login_success">Login Berhasil</string>
+    <string name="general_no_data">Data Tidak Ditemukan</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_summary">Set Tema Anda</string>
+    <string name="settings_lang_title">Bahasa</string>
+    <string name="settings_lang_summary">Ubah bahasa pilihanmu</string>
+    <string name="settings_about_me_title">Tentang Saya</string>
+    <string name="nav_settings">Pengaturan</string>
+    <string name="logout_description">Apakah kamu yakin ingin logout?</string>
+    <string name="general_yes">Ya</string>
+    <string name="general_no">Tidak</string>
+    <string name="add_by_camera">Kamera</string>
+    <string name="add_by_gallery">Galeri</string>
+    <string name="add_description">Keterangan</string>
+    <string name="add_permission_validate_error">Akses Ditolak</string>
+    <string name="add_image_gallery">Pilih Gambar</string>
+    <string name="add_image_validate_error">Gambar dan Keterangan harus diisi</string>
+    <string name="add_image_success">Upload Berhasil</string>
+</resources>

@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="general_image_description">Image Description</string>
+    <string name="general_yes">Yes</string>
+    <string name="general_no">No</string>
+    <string name="app_subtitle">Tell Your Story With Dicoding</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="btn_login">Login</string>
+    <string name="login_no_account">Dont Have Account,</string>
+    <string name="login_register">Register Here</string>
+    <string name="register_title">Register Account</string>
+    <string name="btn_register">Register</string>
+    <string name="validate_nama_empty">Name must be filled</string>
+    <string name="validate_email_empty">Email must be filled</string>
+    <string name="validate_email_invalid">Invalid Email Address</string>
+    <string name="validate_password_empty">Password must be filled</string>
+    <string name="validate_password_length">Minimum 6 characters</string>
+    <string name="validate_password_confirm">Confirm Password is not same</string>
+    <string name="dialog_loading" translatable="false">Loading...</string>
+    <string name="login_success">Login Success</string>
+    <string name="nav_home" translatable="false">Home</string>
+    <string name="nav_settings">Settings</string>
+    <string name="general_no_data">Data Not Found</string>
+    <string name="detail_story_title" translatable="false">Detail Story</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_summary">Set Your Theme</string>
+    <string name="settings_lang_title">Language</string>
+    <string name="settings_lang_summary">Change your prefer language</string>
+    <string name="settings_about_me_title">About Me</string>
+    <string name="settings_about_me_summary" translatable="false">Copyright &#169; Ardanil Maulana, 2022</string>
+    <string name="add_by_camera">Camera</string>
+    <string name="add_by_gallery">Gallery</string>
+    <string name="add_description">Description</string>
+    <string name="add_submit" translatable="false">Submit</string>
+    <string name="add_permission_validate_error">Access Denied</string>
+    <string name="add_image_gallery">Select Your Image</string>
+    <string name="add_image_validate_error">Image and Description Cannot Empty</string>
+    <string name="add_image_success">Upload Success</string>
+
+    <string-array name="pref_theme_list">
+        <item>Default</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
+    </string-array>
+
+    <string-array name="pref_theme_list_values">
+        <item>default</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="pref_lang_list">
+        <item>English</item>
+        <item>Indonesian</item>
+    </string-array>
+
+    <string-array name="pref_lang_list_values">
+        <item>en</item>
+        <item>id</item>
+    </string-array>
+    <string name="logout_title" translatable="false">Logout</string>
+    <string name="logout_description">Are you sure want to logout?</string>
+
+</resources>

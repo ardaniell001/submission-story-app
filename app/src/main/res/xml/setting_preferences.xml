@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="en"
+        android:entries="@array/pref_lang_list"
+        android:entryValues="@array/pref_lang_list_values"
+        android:icon="@drawable/ic_baseline_language"
+        android:key="language_app"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:summary="@string/settings_lang_summary"
+        android:title="@string/settings_lang_title"
+        app:iconSpaceReserved="true" />
+
+    <ListPreference
+        android:defaultValue="default"
+        android:entries="@array/pref_theme_list"
+        android:entryValues="@array/pref_theme_list_values"
+        android:icon="@drawable/ic_round_nights_stay"
+        android:key="theme_mode"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:summary="@string/settings_theme_summary"
+        android:title="@string/settings_theme_title"
+        app:iconSpaceReserved="true" />
+
+    <Preference
+        android:icon="@drawable/ic_round_info"
+        android:key="about_me"
+        android:summary="@string/settings_about_me_summary"
+        android:title="@string/settings_about_me_title" />
+
+    <Preference
+        android:icon="@drawable/ic_round_exit_to_app"
+        android:key="logout"
+        android:summary=""
+        android:title="@string/logout_title" />
+
+</PreferenceScreen>
