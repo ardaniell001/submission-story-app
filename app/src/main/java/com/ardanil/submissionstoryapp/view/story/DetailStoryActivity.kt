@@ -11,7 +11,6 @@ import com.ardanil.submissionstoryapp.databinding.ActivityDetailStoryBinding
 import com.ardanil.submissionstoryapp.view.BaseActivity
 import com.bumptech.glide.Glide
 
-@Suppress("DEPRECATION")
 class DetailStoryActivity : BaseActivity<ActivityDetailStoryBinding>() {
 
 	private var detailStory: ListStoryItem? = null

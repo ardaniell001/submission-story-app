@@ -1,6 +1,5 @@
 package com.ardanil.submissionstoryapp.config
 
-import com.ardanil.submissionstoryapp.view.home.StoryViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 

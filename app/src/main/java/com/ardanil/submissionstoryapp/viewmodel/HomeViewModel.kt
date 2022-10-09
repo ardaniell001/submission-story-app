@@ -1,14 +1,14 @@
 package com.ardanil.submissionstoryapp.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ardanil.submissionstoryapp.config.ApiConfig
 import com.ardanil.submissionstoryapp.config.StoryPagingRepository
 import com.ardanil.submissionstoryapp.data.Resource
 import com.ardanil.submissionstoryapp.data.Status
-import com.ardanil.submissionstoryapp.data.model.AuthModel
 import com.ardanil.submissionstoryapp.data.preference.AuthPref
-import com.ardanil.submissionstoryapp.data.response.LoginResponse
 import com.ardanil.submissionstoryapp.data.response.SubmitResponse
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

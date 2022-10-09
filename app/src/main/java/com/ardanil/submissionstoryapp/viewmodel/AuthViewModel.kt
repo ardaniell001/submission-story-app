@@ -28,12 +28,6 @@ class AuthViewModel(private val pref: AuthPref) : ViewModel() {
 		return pref.getAuth().asLiveData()
 	}
 
-	fun logout() {
-		viewModelScope.launch {
-			pref.logout()
-		}
-	}
-
 	fun login(email: String, password: String) {
 		loginLiveData.value = Resource(Status.LOADING)
 		ApiConfig.getApiService().login(email, password).enqueue(object :

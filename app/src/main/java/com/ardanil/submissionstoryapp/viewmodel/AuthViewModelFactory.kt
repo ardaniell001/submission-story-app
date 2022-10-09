@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ardanil.submissionstoryapp.config.Injector
 import com.ardanil.submissionstoryapp.data.preference.AuthPref
-import java.lang.IllegalArgumentException
 
 class AuthViewModelFactory(private val authPref: AuthPref) : ViewModelProvider.NewInstanceFactory() {
 

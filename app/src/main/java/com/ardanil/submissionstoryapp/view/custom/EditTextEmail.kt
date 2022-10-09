@@ -24,7 +24,7 @@ class EditTextEmail : AppCompatEditText {
 		init()
 	}
 
-	public fun isHasError(): Boolean {
+	fun isHasError(): Boolean {
 		return isHasError
 	}
 
