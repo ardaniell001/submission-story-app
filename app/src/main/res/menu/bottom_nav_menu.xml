@@ -6,6 +6,11 @@
         android:title="@string/nav_home" />
 
     <item
+        android:id="@+id/navigation_maps"
+        android:icon="@drawable/ic_round_map_24"
+        android:title="@string/nav_maps" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_round_settings"
         android:title="@string/nav_settings" />

@@ -42,4 +42,10 @@ interface ApiService {
 		@Part("description") description: RequestBody,
 	): Call<SubmitResponse>
 
+	@GET("stories")
+	fun getStoriesLocation(
+		@Header("Authorization") authHeader: String,
+		@Query("location") location: Int,
+	): Call<StoryResponse>
+
 }

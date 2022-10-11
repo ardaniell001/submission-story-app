@@ -16,7 +16,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 		super.initViews()
 		setSupportActionBar(binding.toolbar)
 		val navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-		val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_settings))
+		val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_maps, R.id.navigation_settings))
 		setupActionBarWithNavController(navController, appBarConfiguration)
 		binding.btmNavigation.setupWithNavController(navController)
 	}

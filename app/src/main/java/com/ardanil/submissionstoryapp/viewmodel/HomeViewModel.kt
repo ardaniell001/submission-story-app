@@ -9,6 +9,7 @@ import com.ardanil.submissionstoryapp.config.StoryPagingRepository
 import com.ardanil.submissionstoryapp.data.Resource
 import com.ardanil.submissionstoryapp.data.Status
 import com.ardanil.submissionstoryapp.data.preference.AuthPref
+import com.ardanil.submissionstoryapp.data.response.StoryResponse
 import com.ardanil.submissionstoryapp.data.response.SubmitResponse
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -26,6 +27,10 @@ class HomeViewModel(
 
 	private val uploadMutableLiveData = MutableLiveData<Resource<SubmitResponse>>()
 	internal val uploadLiveData = uploadMutableLiveData
+
+	private val storiesLocationMutableLiveData = MutableLiveData<Resource<StoryResponse>>()
+	internal val storiesLocationLiveData = storiesLocationMutableLiveData
+
 	private var token: String = ""
 
 	val getStories = pagingRepository.getStories().cachedIn(viewModelScope)
@@ -40,19 +45,52 @@ class HomeViewModel(
 		uploadLiveData.value = Resource(Status.LOADING)
 		ApiConfig.getApiService().submitStory("Bearer $token", image, description).enqueue(object :
 			Callback<SubmitResponse> {
-			override fun onResponse(call: Call<SubmitResponse>, response: Response<SubmitResponse>) {
+			override fun onResponse(
+				call: Call<SubmitResponse>,
+				response: Response<SubmitResponse>
+			) {
 				if (response.isSuccessful) {
 					response.body()?.let {
 						uploadLiveData.value = Resource(Status.SUCCESS, it)
 					}
 				} else {
 					val error = response.errorBody()?.string()?.let { JSONObject(it) }
-					uploadLiveData.value = Resource(Status.ERROR, Throwable(error?.getString("message") ?: "Bad Request"))
+					uploadLiveData.value = Resource(
+						Status.ERROR,
+						Throwable(error?.getString("message") ?: "Bad Request")
+					)
 				}
 			}
 
 			override fun onFailure(call: Call<SubmitResponse>, t: Throwable) {
 				uploadLiveData.value = Resource(Status.ERROR, t)
+			}
+		})
+	}
+
+	fun getStoriesWithLocation() {
+		storiesLocationMutableLiveData.value = Resource(Status.LOADING)
+		ApiConfig.getApiService().getStoriesLocation(
+			"Bearer $token",
+			1
+		).enqueue(object :
+			Callback<StoryResponse> {
+			override fun onResponse(call: Call<StoryResponse>, response: Response<StoryResponse>) {
+				if (response.isSuccessful) {
+					response.body()?.let {
+						storiesLocationMutableLiveData.value = Resource(Status.SUCCESS, it)
+					}
+				} else {
+					val error = response.errorBody()?.string()?.let { JSONObject(it) }
+					storiesLocationMutableLiveData.value = Resource(
+						Status.ERROR,
+						Throwable(error?.getString("message") ?: "Bad Request")
+					)
+				}
+			}
+
+			override fun onFailure(call: Call<StoryResponse>, t: Throwable) {
+				storiesLocationMutableLiveData.value = Resource(Status.ERROR, t)
 			}
 		})
 	}
