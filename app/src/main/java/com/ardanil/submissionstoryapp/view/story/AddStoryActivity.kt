@@ -21,8 +21,8 @@ import com.ardanil.submissionstoryapp.data.preference.AuthPref
 import com.ardanil.submissionstoryapp.databinding.ActivityAddStoryBinding
 import com.ardanil.submissionstoryapp.view.BaseActivity
 import com.ardanil.submissionstoryapp.view.dataStore
-import com.ardanil.submissionstoryapp.viewmodel.AuthViewModelFactory
 import com.ardanil.submissionstoryapp.viewmodel.HomeViewModel
+import com.ardanil.submissionstoryapp.viewmodel.HomeViewModelFactory
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -35,7 +35,7 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 	private var mFile: File? = null
 
 	private val viewModel by viewModels<HomeViewModel> {
-		AuthViewModelFactory.getInstance(AuthPref.getInstance(dataStore))
+		HomeViewModelFactory.getInstance(AuthPref.getInstance(dataStore))
 	}
 
 	override fun getViewBinding(): ActivityAddStoryBinding = ActivityAddStoryBinding.inflate(layoutInflater)
@@ -53,7 +53,6 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 
 	override fun initViews() {
 		super.initViews()
-		initLiveData()
 		binding.btnCamera.setOnClickListener {
 			if (!checkPermissions()) {
 				ActivityCompat.requestPermissions(
@@ -78,26 +77,6 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 			submitPost()
 		}
 
-	}
-
-	private fun initLiveData() {
-		viewModel.uploadLiveData.observe(this) {
-			when (it.status) {
-				Status.LOADING -> loadingDialog.show()
-				Status.SUCCESS -> {
-					loadingDialog.dismiss()
-					Toast.makeText(applicationContext, getString(R.string.add_image_success), Toast.LENGTH_SHORT)
-						.show()
-					setResult(RESULT_OK, Intent())
-					finish()
-				}
-				Status.ERROR -> {
-					loadingDialog.dismiss()
-					Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
-						.show()
-				}
-			}
-		}
 	}
 
 	@SuppressLint("QueryPermissionsNeeded")
@@ -164,7 +143,23 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 				compressImage.name,
 				currentImageFile
 			)
-			viewModel.submitStory(imageMultipart, description)
+			viewModel.submitStory(imageMultipart, description).observe(this) { res ->
+				when (res.status) {
+					Status.LOADING -> loadingDialog.show()
+					Status.SUCCESS -> {
+						loadingDialog.dismiss()
+						Toast.makeText(applicationContext, getString(R.string.add_image_success), Toast.LENGTH_SHORT)
+							.show()
+						setResult(RESULT_OK, Intent())
+						finish()
+					}
+					Status.ERROR -> {
+						loadingDialog.dismiss()
+						Toast.makeText(applicationContext, res.throwable?.message, Toast.LENGTH_SHORT)
+							.show()
+					}
+				}
+			}
 		}
 	}
 

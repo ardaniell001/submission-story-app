@@ -7,7 +7,4 @@ object Injector {
 	fun provideRepository(pref: AuthPref): StoryRepository {
 		return StoryRepository(pref)
 	}
-	fun providePagingRepository(pref: AuthPref): StoryPagingRepository {
-		return StoryPagingRepository(ApiConfig.getApiService(), pref)
-	}
 }

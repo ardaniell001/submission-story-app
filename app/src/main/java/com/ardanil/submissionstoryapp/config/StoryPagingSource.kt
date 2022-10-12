@@ -7,7 +7,6 @@ import com.ardanil.submissionstoryapp.data.response.ListStoryItem
 import kotlinx.coroutines.flow.first
 
 class StoryPagingSource(
-	private val apiService: ApiService,
 	private val pref: AuthPref
 ) : PagingSource<Int, ListStoryItem>() {
 
@@ -23,7 +22,7 @@ class StoryPagingSource(
 			val position = params.key ?: PAGE
 			val token = pref.getAuth().first().token
 			if (token.isNotEmpty()) {
-				val response = apiService.getStories(
+				val response = ApiConfig.getApiService().getStories(
 					"Bearer $token",
 					position,
 					params.loadSize

@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
 		StoryAdapter(this::onStoryClicked)
 	}
 	private val viewModel by viewModels<HomeViewModel> {
-		HomeViewModelFactory(AuthPref.getInstance(requireContext().dataStore))
+		HomeViewModelFactory.getInstance(AuthPref.getInstance(requireContext().dataStore))
 	}
 
 	override fun onCreateView(
@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		binding.rvStory.layoutManager = LinearLayoutManager(requireContext())
-		viewModel.getStories.observe(viewLifecycleOwner) {
+		viewModel.getStories().observe(viewLifecycleOwner) {
 			storyAdapter.submitData(viewLifecycleOwner.lifecycle, it)
 			binding.rvStory.adapter = storyAdapter
 		}

@@ -5,6 +5,7 @@ import com.ardanil.submissionstoryapp.data.Status
 import com.ardanil.submissionstoryapp.data.response.LoginResponse
 import com.ardanil.submissionstoryapp.data.response.LoginResult
 import com.ardanil.submissionstoryapp.data.response.RegisterResponse
+import com.ardanil.submissionstoryapp.data.response.SubmitResponse
 
 object DataDummy {
 
@@ -26,6 +27,14 @@ object DataDummy {
 
 	fun generateLoginFailed(): Resource<LoginResponse> {
 		return Resource(Status.ERROR, LoginResponse(null, true, "Login Failed"))
+	}
+
+	fun generateSubmitStorySuccess(): Resource<SubmitResponse> {
+		return Resource(Status.SUCCESS, SubmitResponse(false, "Story submitted successfully"))
+	}
+
+	fun generateSubmitStoryFailed(): Resource<SubmitResponse> {
+		return Resource(Status.ERROR, SubmitResponse(true, "Failed Upload"))
 	}
 
 }
