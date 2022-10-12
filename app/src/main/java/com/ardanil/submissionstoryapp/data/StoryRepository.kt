@@ -112,7 +112,7 @@ class StoryRepository(private val authPref: AuthPref) {
 		return uploadLocationLiveData
 	}
 
-	fun getStoriesWithLocation(): MediatorLiveData<Resource<StoryResponse>> {
+	fun getStoriesWithLocation(): LiveData<Resource<StoryResponse>> {
 		storiesLocationLiveData.value = Resource(Status.LOADING)
 		val token = runBlocking { authPref.getAuth().first().token }
 		ApiConfig.getApiService().getStoriesLocation(

@@ -2,10 +2,7 @@ package com.ardanil.submissionstoryapp.utils
 
 import com.ardanil.submissionstoryapp.data.Resource
 import com.ardanil.submissionstoryapp.data.Status
-import com.ardanil.submissionstoryapp.data.response.LoginResponse
-import com.ardanil.submissionstoryapp.data.response.LoginResult
-import com.ardanil.submissionstoryapp.data.response.RegisterResponse
-import com.ardanil.submissionstoryapp.data.response.SubmitResponse
+import com.ardanil.submissionstoryapp.data.response.*
 
 object DataDummy {
 
@@ -35,6 +32,23 @@ object DataDummy {
 
 	fun generateSubmitStoryFailed(): Resource<SubmitResponse> {
 		return Resource(Status.ERROR, SubmitResponse(true, "Failed Upload"))
+	}
+
+	fun generateStoryLocationEntity(): List<ListStoryItem> {
+		val storyList = ArrayList<ListStoryItem>()
+		for (i in 0..10) {
+			val story = ListStoryItem(
+				"https://www.google.com/",
+				"2022-10-12T07:30:20Z",
+				"Content Title",
+				"Content Description",
+				100.00,
+				"$i",
+				1.00
+			)
+			storyList.add(story)
+		}
+		return storyList
 	}
 
 }
