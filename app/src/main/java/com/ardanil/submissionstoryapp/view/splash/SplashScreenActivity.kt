@@ -28,7 +28,7 @@ class SplashScreenActivity : BaseActivity<ActivitySplashScreenBinding>() {
 	private lateinit var authViewModel: AuthViewModel
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		authViewModel = ViewModelProvider(this, AuthViewModelFactory(AuthPref.getInstance(this.dataStore)))[AuthViewModel::class.java]
+		authViewModel = ViewModelProvider(this, AuthViewModelFactory.getInstance(AuthPref.getInstance(this.dataStore)))[AuthViewModel::class.java]
 		super.onCreate(savedInstanceState)
 	}
 

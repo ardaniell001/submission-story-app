@@ -19,8 +19,8 @@ import com.ardanil.submissionstoryapp.data.preference.AuthPref
 import com.ardanil.submissionstoryapp.databinding.FragmentMapsBinding
 import com.ardanil.submissionstoryapp.view.custom.LoadingDialog
 import com.ardanil.submissionstoryapp.view.dataStore
-import com.ardanil.submissionstoryapp.viewmodel.AuthViewModelFactory
 import com.ardanil.submissionstoryapp.viewmodel.HomeViewModel
+import com.ardanil.submissionstoryapp.viewmodel.HomeViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,7 +37,7 @@ class MapsFragment : Fragment() {
 	private lateinit var binding: FragmentMapsBinding
 	private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 	private val viewModel by viewModels<HomeViewModel> {
-		AuthViewModelFactory(AuthPref.getInstance(requireContext().dataStore))
+		HomeViewModelFactory(AuthPref.getInstance(requireContext().dataStore))
 	}
 
 	private val callback = OnMapReadyCallback { googleMap ->

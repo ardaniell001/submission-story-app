@@ -35,7 +35,7 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 	private var mFile: File? = null
 
 	private val viewModel by viewModels<HomeViewModel> {
-		AuthViewModelFactory(AuthPref.getInstance(dataStore))
+		AuthViewModelFactory.getInstance(AuthPref.getInstance(dataStore))
 	}
 
 	override fun getViewBinding(): ActivityAddStoryBinding = ActivityAddStoryBinding.inflate(layoutInflater)

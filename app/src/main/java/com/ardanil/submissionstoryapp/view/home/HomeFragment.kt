@@ -20,8 +20,8 @@ import com.ardanil.submissionstoryapp.databinding.ItemStoryBinding
 import com.ardanil.submissionstoryapp.view.dataStore
 import com.ardanil.submissionstoryapp.view.story.AddStoryActivity
 import com.ardanil.submissionstoryapp.view.story.DetailStoryActivity
-import com.ardanil.submissionstoryapp.viewmodel.AuthViewModelFactory
 import com.ardanil.submissionstoryapp.viewmodel.HomeViewModel
+import com.ardanil.submissionstoryapp.viewmodel.HomeViewModelFactory
 
 class HomeFragment : Fragment() {
 
@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
 		StoryAdapter(this::onStoryClicked)
 	}
 	private val viewModel by viewModels<HomeViewModel> {
-		AuthViewModelFactory(AuthPref.getInstance(requireContext().dataStore))
+		HomeViewModelFactory(AuthPref.getInstance(requireContext().dataStore))
 	}
 
 	override fun onCreateView(
