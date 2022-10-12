@@ -9,4 +9,8 @@ object DataDummy {
 	fun generateRegisterSuccess(): Resource<RegisterResponse> {
 		return Resource(Status.SUCCESS, RegisterResponse(false, "User registered successfully"))
 	}
+
+	fun generateRegisterFailed(): Resource<RegisterResponse> {
+		return Resource(Status.ERROR, RegisterResponse(true, "Failed Register"))
+	}
 }

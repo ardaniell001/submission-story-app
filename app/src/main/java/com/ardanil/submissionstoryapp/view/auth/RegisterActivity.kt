@@ -6,13 +6,18 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.ardanil.submissionstoryapp.R
 import com.ardanil.submissionstoryapp.data.Status
+import com.ardanil.submissionstoryapp.data.preference.AuthPref
 import com.ardanil.submissionstoryapp.databinding.ActivityRegisterBinding
 import com.ardanil.submissionstoryapp.view.BaseActivity
+import com.ardanil.submissionstoryapp.view.dataStore
 import com.ardanil.submissionstoryapp.viewmodel.RegisterViewModel
+import com.ardanil.submissionstoryapp.viewmodel.RegisterViewModelFactory
 
 class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 
-	private val registerViewModel by viewModels<RegisterViewModel>()
+	private val registerViewModel by viewModels<RegisterViewModel>{
+		RegisterViewModelFactory.getInstance(AuthPref.getInstance(dataStore))
+	}
 
 	override fun getViewBinding(): ActivityRegisterBinding =
 		ActivityRegisterBinding.inflate(layoutInflater)
@@ -20,7 +25,6 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 	override fun initViews() {
 		super.initViews()
 		setupValidation()
-		initLiveData()
 	}
 
 	private fun setupValidation() {
@@ -75,7 +79,22 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 				binding.etName.text.toString(),
 				binding.etEmail.text.toString(),
 				binding.etPassword.text.toString()
-			)
+			).observe(this) {
+				when (it.status) {
+					Status.LOADING -> loadingDialog.show()
+					Status.SUCCESS -> {
+						loadingDialog.dismiss()
+						Toast.makeText(applicationContext, it.item?.message, Toast.LENGTH_SHORT)
+							.show()
+						finish()
+					}
+					Status.ERROR -> {
+						loadingDialog.dismiss()
+						Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
+							.show()
+					}
+				}
+			}
 		}
 	}
 
@@ -91,24 +110,5 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 			isValid = true
 		}
 		return isValid
-	}
-
-	private fun initLiveData() {
-		registerViewModel.registerLiveData.observe(this) {
-			when (it.status) {
-				Status.LOADING -> loadingDialog.show()
-				Status.SUCCESS -> {
-					loadingDialog.dismiss()
-					Toast.makeText(applicationContext, it.item?.message, Toast.LENGTH_SHORT)
-						.show()
-					finish()
-				}
-				Status.ERROR -> {
-					loadingDialog.dismiss()
-					Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
-						.show()
-				}
-			}
-		}
 	}
 }
