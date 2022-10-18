@@ -1,0 +1,59 @@
+1. Unit Test AuthViewModel
+a. Ketika berhasil login melalui internet
+-  Memastikan data response login tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+b. Ketika gagal login melalui internet
+-  Memastikan response tidak null
+-  Memastikan mengembalikan Response Status.ERROR
+
+c. Ketika menyimpan autentikasi ke datastore
+-  Memastikan response tidak null
+-  Memastikan data yang tersimpan, sama dengan data yang di ambil
+
+2. Unit Test HomeViewModel
+a. Ketika berhasil menambahkan story baru melalui internet
+-  Memastikan data response tambah story tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+b. Ketika gagal mengirimkan story baru melalui internet
+-  Memastikan mengembalikan Response Status.ERROR
+
+c. Ketika berhasil mengambil data story dengan lokasi dari internet
+-  Memastikan data story tidak null
+-  Memastikan mengembalikan Response Status.Success
+-  Memastikan jumlah data story sesuai
+
+d. Ketika gagal mengambil data story map dari internet
+-  Memastikan mengembalikan Response Status.ERROR
+
+3. Unit Test RegisterViewModel
+a. Ketika berhasil register melalui internet
+-  Memastikan data response register tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+b. Ketika gagal register melalui internet
+-  Memastikan mengembalikan Response Status.ERROR
+
+4. Unit Test StoryRepository
+
+a. Ketika berhasil mengambil story berupa paging
+-  Memastikan data paging story tidak null
+
+b. Ketika berhasil mengambil story lokasi dari internet
+-  Memastikan data story lokasi tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+c. Ketika berhasil login melalui internet
+-  Memastikan data response login tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+d. Ketika gagal login melalui internet
+-  Memastikan mengembalikan Response Status.ERROR
+
+e. Ketika berhasil register melalui internet
+-  Memastikan data response register tidak null
+-  Memastikan mengembalikan Response Status.Success
+
+f. Ketika gagal register melalui internet
+-  Memastikan mengembalikan Response Status.ERROR
