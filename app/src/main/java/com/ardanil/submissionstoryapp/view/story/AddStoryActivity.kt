@@ -77,6 +77,29 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 			submitPost()
 		}
 
+		viewModel.getToken()
+		initLiveData()
+
+	}
+
+	private fun initLiveData() {
+		viewModel.uploadLiveData.observe(this) { res ->
+			when (res.status) {
+				Status.LOADING -> loadingDialog.show()
+				Status.SUCCESS -> {
+					loadingDialog.dismiss()
+					Toast.makeText(applicationContext, getString(R.string.add_image_success), Toast.LENGTH_SHORT)
+						.show()
+					setResult(RESULT_OK, Intent())
+					finish()
+				}
+				Status.ERROR -> {
+					loadingDialog.dismiss()
+					Toast.makeText(applicationContext, res.throwable?.message, Toast.LENGTH_SHORT)
+						.show()
+				}
+			}
+		}
 	}
 
 	@SuppressLint("QueryPermissionsNeeded")
@@ -143,23 +166,7 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 				compressImage.name,
 				currentImageFile
 			)
-			viewModel.submitStory(imageMultipart, description).observe(this) { res ->
-				when (res.status) {
-					Status.LOADING -> loadingDialog.show()
-					Status.SUCCESS -> {
-						loadingDialog.dismiss()
-						Toast.makeText(applicationContext, getString(R.string.add_image_success), Toast.LENGTH_SHORT)
-							.show()
-						setResult(RESULT_OK, Intent())
-						finish()
-					}
-					Status.ERROR -> {
-						loadingDialog.dismiss()
-						Toast.makeText(applicationContext, res.throwable?.message, Toast.LENGTH_SHORT)
-							.show()
-					}
-				}
-			}
+			viewModel.submitStory(imageMultipart, description)
 		}
 	}
 

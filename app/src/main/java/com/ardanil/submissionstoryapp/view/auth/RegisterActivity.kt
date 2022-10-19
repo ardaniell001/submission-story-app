@@ -25,6 +25,26 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 	override fun initViews() {
 		super.initViews()
 		setupValidation()
+		initLiveData()
+	}
+
+	private fun initLiveData() {
+		registerViewModel.registerLiveData.observe(this) {
+			when (it.status) {
+				Status.LOADING -> loadingDialog.show()
+				Status.SUCCESS -> {
+					loadingDialog.dismiss()
+					Toast.makeText(applicationContext, it.item?.message, Toast.LENGTH_SHORT)
+						.show()
+					finish()
+				}
+				Status.ERROR -> {
+					loadingDialog.dismiss()
+					Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
+						.show()
+				}
+			}
+		}
 	}
 
 	private fun setupValidation() {
@@ -79,22 +99,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 				binding.etName.text.toString(),
 				binding.etEmail.text.toString(),
 				binding.etPassword.text.toString()
-			).observe(this) {
-				when (it.status) {
-					Status.LOADING -> loadingDialog.show()
-					Status.SUCCESS -> {
-						loadingDialog.dismiss()
-						Toast.makeText(applicationContext, it.item?.message, Toast.LENGTH_SHORT)
-							.show()
-						finish()
-					}
-					Status.ERROR -> {
-						loadingDialog.dismiss()
-						Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
-							.show()
-					}
-				}
-			}
+			)
 		}
 	}
 

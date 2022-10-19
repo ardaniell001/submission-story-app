@@ -49,7 +49,30 @@ class MapsFragment : Fragment() {
 		mMap?.uiSettings?.isMapToolbarEnabled = true
 		setMapStyle()
 		setMyLocation()
-		viewModel.getStoriesWithLocation().observe(viewLifecycleOwner) {
+		viewModel.getToken()
+	}
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
+		binding = FragmentMapsBinding.inflate(inflater, container, false)
+		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+		mapFragment?.getMapAsync(callback)
+		initLiveData()
+	}
+
+	private fun initLiveData() {
+		viewModel.tokenLiveData.observe(viewLifecycleOwner) {
+			viewModel.getStoriesWithLocation()
+		}
+		viewModel.storiesLocationLiveData.observe(viewLifecycleOwner) {
 			when (it.status) {
 				Status.LOADING -> loadingDialog.show()
 				Status.SUCCESS -> {
@@ -81,21 +104,6 @@ class MapsFragment : Fragment() {
 				}
 			}
 		}
-	}
-
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-		binding = FragmentMapsBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-		mapFragment?.getMapAsync(callback)
 	}
 
 	private fun setMapStyle() {

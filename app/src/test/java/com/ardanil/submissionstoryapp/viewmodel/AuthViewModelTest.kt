@@ -2,64 +2,59 @@ package com.ardanil.submissionstoryapp.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.ardanil.submissionstoryapp.data.Resource
 import com.ardanil.submissionstoryapp.data.Status
 import com.ardanil.submissionstoryapp.data.StoryRepository
 import com.ardanil.submissionstoryapp.data.model.AuthModel
-import com.ardanil.submissionstoryapp.data.response.LoginResponse
 import com.ardanil.submissionstoryapp.utils.DataDummy
-import com.ardanil.submissionstoryapp.utils.MainDispatcherRule
+import com.ardanil.submissionstoryapp.utils.MainCoroutineRule
 import com.ardanil.submissionstoryapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.Mockito.mock
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 internal class AuthViewModelTest {
 
 	@get:Rule
 	val instantExecutorRule = InstantTaskExecutorRule()
 
 	@get:Rule
-	var mainDispatcherRule = MainDispatcherRule()
+	var mainCoroutineRule = MainCoroutineRule()
 
 	@Mock
 	private lateinit var storyRepository: StoryRepository
 	private lateinit var authViewModel: AuthViewModel
-	private val dummyLoginSuccess = DataDummy.generateLoginSuccess()
-	private val dummyLoginFailed = DataDummy.generateLoginFailed()
 
 	@Before
 	fun setUp() {
+		storyRepository = mock(StoryRepository::class.java)
 		authViewModel = AuthViewModel(storyRepository)
 	}
 
 	@Test
-	fun `when Login Success`() {
-		val expectedResponse = MutableLiveData<Resource<LoginResponse>>()
-		expectedResponse.value = dummyLoginSuccess
-		Mockito.`when`(authViewModel.login("ardanil", "123456")).thenReturn(expectedResponse)
-		val actualResponse = authViewModel.login("ardanil", "123456").getOrAwaitValue()
+	fun `when Login Success`() = runTest {
+		val expectedResponse = DataDummy.generateLoginSuccess()
+		Mockito.`when`(storyRepository.login("ardanil", "123456")).thenReturn(expectedResponse)
+		authViewModel.login("ardanil", "123456")
+		val actualResponse = authViewModel.loginLiveData.getOrAwaitValue()
 		Mockito.verify(storyRepository).login("ardanil", "123456")
 		assertNotNull(actualResponse)
 		assertTrue(actualResponse.status == Status.SUCCESS)
+		assertEquals(expectedResponse, actualResponse.item)
 	}
 
 	@Test
-	fun `when Login Failed`() {
-		val expectedResponse = MutableLiveData<Resource<LoginResponse>>()
-		expectedResponse.value = dummyLoginFailed
-		Mockito.`when`(authViewModel.login("ardanil", "123456")).thenReturn(expectedResponse)
-		val actualResponse = authViewModel.login("ardanil", "123456").getOrAwaitValue()
+	fun `when Login Failed`() = runTest {
+		val expectedResponse = DataDummy.generateLoginFailed()
+		Mockito.`when`(storyRepository.login("ardanil", "123456")).thenReturn(expectedResponse)
+		authViewModel.login("ardanil", "123456")
+		val actualResponse = authViewModel.loginLiveData.getOrAwaitValue()
 		Mockito.verify(storyRepository).login("ardanil", "123456")
 		assertNotNull(actualResponse)
 		assertTrue(actualResponse.status == Status.ERROR)
@@ -74,11 +69,11 @@ internal class AuthViewModelTest {
 		)
 		val expectedResponse = MutableLiveData<AuthModel>()
 		expectedResponse.value = authModel
-		Mockito.`when`(authViewModel.getAuth()).thenReturn(expectedResponse)
+		Mockito.`when`(storyRepository.getAuth()).thenReturn(expectedResponse)
 		val actualResponse = authViewModel.getAuth().getOrAwaitValue()
 		Mockito.verify(storyRepository).getAuth()
 		assertNotNull(actualResponse)
-		Assert.assertEquals(actualResponse, authModel)
+		assertEquals(actualResponse, authModel)
 	}
 
 }

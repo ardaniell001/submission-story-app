@@ -27,33 +27,35 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 		ActivityLoginBinding.inflate(layoutInflater)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
 		authViewModel = ViewModelProvider(
 			this,
 			AuthViewModelFactory.getInstance(AuthPref.getInstance(dataStore))
 		)[AuthViewModel::class.java]
+		super.onCreate(savedInstanceState)
 	}
 
 	override fun initViews() {
 		super.initViews()
+		authViewModel.loginLiveData.observe(this) {
+			when (it.status) {
+				Status.LOADING -> loadingDialog.show()
+				Status.SUCCESS -> {
+					it.item?.loginResult?.let { res -> setLoginPreference(res) }
+				}
+				Status.ERROR -> {
+					loadingDialog.dismiss()
+					Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
+						.show()
+				}
+			}
+		}
+
 		binding.tvRegister.setOnClickListener {
 			startActivity(Intent(this, RegisterActivity::class.java))
 		}
 
 		binding.btnSubmit.setOnClickListener {
-			authViewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString()).observe(this) {
-				when (it.status) {
-					Status.LOADING -> loadingDialog.show()
-					Status.SUCCESS -> {
-						it.item?.loginResult?.let { res -> setLoginPreference(res) }
-					}
-					Status.ERROR -> {
-						loadingDialog.dismiss()
-						Toast.makeText(applicationContext, it.throwable?.message, Toast.LENGTH_SHORT)
-							.show()
-					}
-				}
-			}
+			authViewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
 		}
 
 		binding.etPassword.addTextChangedListener(object : TextWatcher {

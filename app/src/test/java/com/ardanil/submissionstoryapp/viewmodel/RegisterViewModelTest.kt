@@ -1,15 +1,14 @@
 package com.ardanil.submissionstoryapp.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import com.ardanil.submissionstoryapp.data.Resource
 import com.ardanil.submissionstoryapp.data.Status
 import com.ardanil.submissionstoryapp.data.StoryRepository
-import com.ardanil.submissionstoryapp.data.response.RegisterResponse
 import com.ardanil.submissionstoryapp.utils.DataDummy
 import com.ardanil.submissionstoryapp.utils.MainDispatcherRule
 import com.ardanil.submissionstoryapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -34,31 +33,31 @@ internal class RegisterViewModelTest {
 	@Mock
 	private lateinit var storyRepository: StoryRepository
 	private lateinit var registerViewModel: RegisterViewModel
-	private val dummyRegisterSuccess = DataDummy.generateRegisterSuccess()
-	private val dummyRegisterFailed = DataDummy.generateRegisterFailed()
 
 	@Before
 	fun setUp() {
+		storyRepository = Mockito.mock(StoryRepository::class.java)
 		registerViewModel = RegisterViewModel(storyRepository)
 	}
 
 	@Test
-	fun `when Register Success`() {
-		val expectedResponse = MutableLiveData<Resource<RegisterResponse>>()
-		expectedResponse.value = dummyRegisterSuccess
-		Mockito.`when`(registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456")).thenReturn(expectedResponse)
-		val actualResponse = registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456").getOrAwaitValue()
+	fun `when Register Success`() = runTest {
+		val expectedResponse = DataDummy.generateRegisterSuccess()
+		Mockito.`when`(storyRepository.registerUser("Ardanil", "ardanil@gmail.com", "123456")).thenReturn(expectedResponse)
+		registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456")
+		val actualResponse = registerViewModel.registerLiveData.getOrAwaitValue()
 		verify(storyRepository).registerUser("Ardanil", "ardanil@gmail.com", "123456")
 		assertNotNull(actualResponse)
 		assertTrue(actualResponse.status == Status.SUCCESS)
+		Assert.assertEquals(expectedResponse, actualResponse.item)
 	}
 
 	@Test
-	fun `when Register Failed`() {
-		val expectedRegisterResponse = MutableLiveData<Resource<RegisterResponse>>()
-		expectedRegisterResponse.value = dummyRegisterFailed
-		Mockito.`when`(registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456")).thenReturn(expectedRegisterResponse)
-		val actualResponse = registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456").getOrAwaitValue()
+	fun `when Register Failed`() = runTest {
+		val expectedResponse = DataDummy.generateRegisterFailed()
+		Mockito.`when`(storyRepository.registerUser("Ardanil", "ardanil@gmail.com", "123456")).thenReturn(expectedResponse)
+		registerViewModel.registerUser("Ardanil", "ardanil@gmail.com", "123456")
+		val actualResponse = registerViewModel.registerLiveData.getOrAwaitValue()
 		verify(storyRepository).registerUser("Ardanil", "ardanil@gmail.com", "123456")
 		assertNotNull(actualResponse)
 		assertTrue(actualResponse.status == Status.ERROR)
